@@ -1,6 +1,6 @@
 Summary
 ========
-Amazon CloudWatch Events trigger this check when AWS CloudTrail logs EC2 API calls. Specifically, Amazon CloudWatch Events Rules monitoring AWS CloudTrail Logs, trigger based on an API call for "AuthorizeSecurityGroupIngress". The trigger invokes AWS Lambda which runs the python script attached. The python script evaluates the Source IP Address and CIDR range. If the CIDR range is 0.0.0.0/0 for IPv4, or ::/0 for IPv6, the Lambda function will send a violation notification.
+Amazon CloudWatch Events trigger this check when AWS CloudTrail logs EC2 API calls. Specifically, Amazon CloudWatch Events Rules monitoring AWS CloudTrail Logs, trigger based on an API call for "AuthorizeSecurityGroupIngress". The trigger invokes AWS Lambda which runs the python script attached. The python script evaluates the Source IP Address and CIDR range. If the CIDR range is 0.0.0.0/0 for IPv4, or ::/0 for IPv6, the Lambda function will send a violation notification and remove the offending SG rule.
 
 Deployment
 ==========
