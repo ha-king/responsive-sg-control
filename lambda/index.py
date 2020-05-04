@@ -81,12 +81,26 @@ Found.')
 def ipv4_checks(security_group_identifier, rule, cidr_violations):
     """IPv4 Checks."""
     try:
-        for ipRange in rule['ipRanges']['items']:
-            if ipRange['cidrIp'] == '0.0.0.0/0':
-                log.info('Violation - Contains IP/CIDR of 0.0.0.0/0')
-                cidr_ip = ipRange["cidrIp"]
-                create_violation_list(security_group_identifier, rule,
-                                      cidr_ip, cidr_violations)
+        if str(rule['toPort']) == os.environ['PortValue']:
+            for ipRange in rule['ipRanges']['items']:
+                if ipRange['cidrIp'] == '0.0.0.0/0':
+                    log.info('Violation - Contains IP/CIDR of 0.0.0.0/0')
+                    cidr_ip = ipRange["cidrIp"]
+                    create_violation_list(security_group_identifier, rule,
+                                          cidr_ip, cidr_violations)
+                                          
+            response = boto3.client('ec2').revoke_security_group_ingress(
+                    GroupId = security_group_identifier,
+                    IpPermissions  = [{
+                                      "IpProtocol": "TCP",
+                                      "FromPort": int(os.environ['PortValue']),
+                                      "ToPort": int(os.environ['PortValue']),
+                                      "IpRanges": [
+                                        {
+                                            'CidrIp': '0.0.0.0/0'
+                                        }]
+                                      }]
+                )
 
     except KeyError:
         log.warning('There is not any Items under ipRanges')
@@ -95,14 +109,28 @@ def ipv4_checks(security_group_identifier, rule, cidr_violations):
 
 
 def ipv6_checks(security_group_identifier, rule, cidr_violations):
-    """IPv4 Checks."""
+    """IPv6 Checks."""
     try:
-        for ipv6Range in rule['ipv6Ranges']['items']:
-            if ipv6Range['cidrIpv6'] == '::/0':
-                log.info('Violation - Contains CIDR IPv6 equal to ::/0')
-                cidr_ip = ipv6Range["cidrIpv6"]
-                create_violation_list(security_group_identifier, rule,
-                                      cidr_ip, cidr_violations)
+        if str(rule['toPort']) == os.environ['PortValue']:
+            for ipv6Range in rule['ipv6Ranges']['items']:
+                if ipv6Range['cidrIpv6'] == '::/0':
+                    log.info('Violation - Contains CIDR IPv6 equal to ::/0')
+                    cidr_ip = ipv6Range["cidrIpv6"]
+                    create_violation_list(security_group_identifier, rule,
+                                          cidr_ip, cidr_violations)
+                                          
+            response = boto3.client('ec2').revoke_security_group_ingress(
+                    GroupId = security_group_identifier,
+                    IpPermissions  = [{
+                                      "IpProtocol": "TCP",
+                                      "FromPort": int(os.environ['PortValue']),
+                                      "ToPort": int(os.environ['PortValue']),
+                                      "Ipv6Ranges": [
+                                        {
+                                            'CidrIp': '::/0'
+                                        }]
+                                      }]
+                )
 
     except KeyError:
         log.warning('There is not any Items under ipv6Ranges')
@@ -121,11 +149,11 @@ def create_violation_list(security_group_identifier,
                           rule, cidr_ip, cidr_violations):
     """Create Violation List."""
     cidr_violations.append({
-        "groupIdentifier": security_group_identifier,
-        "ipProtocol": rule["ipProtocol"],
-        "toPort": rule["toPort"],
-        "fromPort": rule["fromPort"],
-        "cidrIp": cidr_ip
+      "groupIdentifier": security_group_identifier,
+      "ipProtocol": rule["ipProtocol"],
+      "toPort": rule["toPort"],
+      "fromPort": rule["fromPort"],
+      "cidrIp": cidr_ip
     })
     return cidr_violations
 
@@ -193,3 +221,4 @@ def setup_logging():
                   ERROR')
     log.info('Logging setup complete - set to log level '
              + str(log.getEffectiveLevel()))
+

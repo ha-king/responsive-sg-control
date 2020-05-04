@@ -17,12 +17,15 @@ Metadata:
     - Label:
         default: Lambda Settings
       Parameters:
+      - pPortValue
       - pLoggingLevel
       - pLambdaFunctionsS3BucketName
       - pLambdaFunctionS3keyPath
     ParameterLabels:
       pSNSEmailAddress:
         default: SNS Subscription Email Address
+      pPortValue:
+        default: TCP port value to block ingress access from internet.
       pLoggingLevel:
         default: Lambda Function Logging Level.
       pLambdaFunctionsS3BucketName:
@@ -35,6 +38,9 @@ Parameters:
     Type: String
     Description: Email address to notify in the case of a violation
     Default: example@example.com
+  pPortValue:
+    Type: String
+    Description: Block ingress access for this port value.
   pLoggingLevel: # Lambda Logging level, Select "INFO", "WARNING", "ERROR"
     Type: String
     Description: Select "INFO", "WARNING", "ERROR"
@@ -70,7 +76,7 @@ Resources:
                 - ec2.amazonaws.com
               eventName:
                 - AuthorizeSecurityGroupIngress
-      Name: !Sub ${AWS::StackName}-${AWS::Region}-Sec-Grp-Rules-CW-Event'
+      Name: !Sub ${AWS::StackName}-${AWS::Region}-Sec-Grp-Rules-CW-Event
       Targets:
       - Arn: !GetAtt 'rLambdaFunction.Arn'
         Id: rLambdaFunction
@@ -123,6 +129,12 @@ Resources:
               - !Sub "arn:aws:s3:::${pLambdaFunctionsS3BucketName}*"
               - !Sub "arn:aws:s3:::${pLambdaFunctionsS3BucketName}*/*"
             Sid: S3BucketPermissions
+          - Action:
+              - 'ec2:RevokeSecurityGroupIngress'
+            Effect: Allow
+            Resource:
+              - "*"
+            Sid: EC2RevokeSecurityGroupIngress
 
   rLambdaFunction: #Lambda Function Creation and Code
     Type: AWS::Lambda::Function
@@ -135,6 +147,7 @@ Resources:
         Variables:
           outbound_topic_arn: !Ref rSNSCreateSNSTopic
           logging_level: !Ref pLoggingLevel
+          PortValue: !Ref pPortValue
       Handler: index.lambda_handler
       Timeout: 60
       Runtime: python3.6
