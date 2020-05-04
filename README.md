@@ -15,3 +15,4 @@ Launch the provided AWS CloudFormation template using the AWS Console and provid
   | S3 Key               | The S3 location of the Lambda ZIP. No leading slashes. (ex. Lambda.zip or controls/lambda.zip. )
   | Notification Email   | An email address where you would like violation notifications sent
   | Logging Level        | Control the verbosity of the logs. INFO should only be used for debug
+  | Port Value           | TCP port value to evaluate for open ingress
