@@ -16,7 +16,7 @@ Launch the provided AWS CloudFormation template using the AWS Console and provid
   | Port Value           | TCP port value to evaluate for open ingress
 
 
-### Deployment Guide
+### Deployment Guide (Console)
 1. <a href="https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=sg-controls&templateURL=https://s3.us-west-1.amazonaws.com/g2g-security-automation/ec2-security-group-open.yml" target="_blank">![Launch](./img/launch-stack.png?raw=true "Launch")</a>
 1. Click **Next** to proceed with the next step of the wizard.
 1. Specify parameters for the stack.
@@ -25,3 +25,11 @@ Launch the provided AWS CloudFormation template using the AWS Console and provid
 1. Check the **I acknowledge that this template might cause AWS CloudFormation to create IAM resources.** checkbox.
 1. Click **Create** to start the creation of the stack.
 1. Wait until the stack reaches the state **CREATE_COMPLETE**
+
+### Deployment Guide (CLI)
+```
+aws cloudformation create-stack --stack-name "g2g-security-group-ingress-control" \
+                                --template-body file://ec2-security-group-open.yml \
+                                --parameters file://parameters/prod.json \
+                                --region us-west-1
+```
