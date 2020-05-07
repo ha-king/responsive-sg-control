@@ -33,3 +33,10 @@ aws cloudformation create-stack --stack-name "g2g-security-group-ingress-control
                                 --parameters file://parameters/prod.json \
                                 --region us-west-1
 ```
+
+### Clean-up Guide (CLI)
+```
+aws cloudformation delete-stack --stack-name "g2g-security-group-ingress-control" \
+                                --region us-west-1
+```
+
