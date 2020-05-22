@@ -1,7 +1,7 @@
 [
   {
     "ParameterKey": "pSNSEmailAddress",
-    "ParameterValue": "hking@go2group.com"
+    "ParameterValue": ""
   },
   {
     "ParameterKey": "pPortValue",
@@ -13,7 +13,7 @@
   },
   {
     "ParameterKey": "pLambdaFunctionsS3BucketName",
-    "ParameterValue": "g2g-security-automation"
+    "ParameterValue": ""
   },
   {
     "ParameterKey": "pLambdaFunctionS3keyPath",

@@ -17,7 +17,7 @@ Launch the provided AWS CloudFormation template using the AWS Console and provid
 
 
 ### Deployment Guide (Console)
-1. <a href="https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=sg-controls&templateURL=https://s3.us-west-1.amazonaws.com/g2g-security-automation/ec2-security-group-open.yml" target="_blank">![Launch](./img/launch-stack.png?raw=true "Launch")</a>
+1. <a href="https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=sg-controls&templateURL=https://s3.us-west-1.amazonaws.com/inf-security-automation/ec2-security-group-open.yml" target="_blank">![Launch](./img/launch-stack.png?raw=true "Launch")</a>
 1. Click **Next** to proceed with the next step of the wizard.
 1. Specify parameters for the stack.
 1. Click **Next** to proceed with the next step of the wizard.
