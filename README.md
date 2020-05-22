@@ -28,7 +28,7 @@ Launch the provided AWS CloudFormation template using the AWS Console and provid
 
 ### Deployment Guide (CLI)
 ```
-aws cloudformation create-stack --stack-name "g2g-security-group-ingress-control" \
+aws cloudformation create-stack --stack-name "inf-security-group-ingress-control" \
                                 --template-body file://ec2-security-group-open.yml \
                                 --parameters file://parameters/prod.json \
                                 --region us-west-1
@@ -36,7 +36,7 @@ aws cloudformation create-stack --stack-name "g2g-security-group-ingress-control
 
 ### Clean-up Guide (CLI)
 ```
-aws cloudformation delete-stack --stack-name "g2g-security-group-ingress-control" \
+aws cloudformation delete-stack --stack-name "inf-security-group-ingress-control" \
                                 --region us-west-1
 ```
 
